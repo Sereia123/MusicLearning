@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function DoubleClickArea() {
+export default function DoubleClickArea({isBlack}: {isBlack: boolean}) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleDoubleClick = () => {
@@ -12,7 +12,9 @@ export default function DoubleClickArea() {
   return (
     <div
       onDoubleClick={handleDoubleClick}
-      className="w-full h-full border border-gray-300 flex items-center justify-center bg-white hover:bg-gray-100"
+      className={`w-full h-full border border-gray-400 flex items-center justify-center ${
+        isBlack ? 'bg-gray-200' : 'bg-white'
+      } hover:bg-red-200`}
     >
       {isVisible && 
         <div className="bg-red-300 h-full w-full"></div>
