@@ -60,7 +60,7 @@ const noteFrequencies: Record<string, number> = {
 };
 
 const playNote = (note: string) => {
-  const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const audioCtx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 
