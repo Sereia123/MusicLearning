@@ -41,7 +41,7 @@ export default function VerticalSynthPiano() {
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
 
-    oscillator.type = 'square'; // 他に "square", "triangle", "sawtooth" など
+    oscillator.type = 'sine'; // 他に "square", "triangle", "sawtooth" 
     oscillator.frequency.setValueAtTime(noteFrequencies[note], audioCtx.currentTime);
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);

@@ -1,10 +1,10 @@
 'use client';
 import DoubleClickArea from './DoubleClickArea';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 const cols = 8;
 const rows = 24;
-const intervalMs = 300;
+// const intervalMs = 300;
 const blackRow: number[] = [2, 4, 7, 9, 11, 14, 16, 19, 21, 23];
 const rowToNote: Record<number, string> = {
   1: 'E5',
@@ -64,7 +64,7 @@ const playNote = (note: string) => {
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 
-  oscillator.type = 'square';
+  oscillator.type = 'sine';
   oscillator.frequency.setValueAtTime(noteFrequencies[note], audioCtx.currentTime);
   oscillator.connect(gainNode);
   gainNode.connect(audioCtx.destination);
