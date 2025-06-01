@@ -1,10 +1,10 @@
 'use client';
-import DoubleClickArea from './DoubleClickArea';
-// import { useEffect, useState } from 'react';
 
-const cols = 8;
-const rows = 24;
-// const intervalMs = 300;
+import { playNote, playNotes, getAudioContext } from './audioUtils'; // audioUtils からインポート
+import { useEffect, useState } from 'react';
+
+const intervalMs = 500;
+
 const blackRow: number[] = [2, 4, 7, 9, 11, 14, 16, 19, 21, 23];
 const rowToNote: Record<number, string> = {
   1: 'E5',
@@ -32,76 +32,128 @@ const rowToNote: Record<number, string> = {
   23: 'F#3',
   24: 'F3',
 };
-const noteFrequencies: Record<string, number> = {
-  'F3': 174.614,
-  'F#3': 184.997,
-  'G3':	195.998,
-  'G#3': 207.652,
-  'A3': 220.000,
-  'A#3': 233.082,
-  'B3': 246.942,
-  'C4': 261.626,
-  'C#4': 277.183,
-  'D4': 293.665,
-  'D#4': 311.127,
-  'E4': 329.628,
-  'F4': 349.228,
-  'F#4': 369.994,
-  'G4': 391.995,
-  'G#4': 415.305,
-  'A4': 440.000,
-  'A#4': 466.164,
-  'B4': 493.883,
-  'C5': 523.251,
-  'C#5': 554.365,
-  'D5': 587.330,
-  'D#5': 622.254,
-  'E5': 659.255,
-};
 
-const playNote = (note: string) => {
-  const audioCtx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-  const oscillator = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
 
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(noteFrequencies[note], audioCtx.currentTime);
-  oscillator.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
 
-  oscillator.start();
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
-  oscillator.stop(audioCtx.currentTime + 1);
-};
+export default function GridContainer({ 
+  isPlaying, 
+  setIsPlaying, 
+  startCol, 
+  setStartCol, 
+  currentCol, 
+  setCurrentCol,
+  cols, 
+  rows,
+  noteStates,
+  setNoteStates,
+}: { 
+  isPlaying: boolean; 
+  setIsPlaying: (isPlaying: boolean) => void; 
+  startCol: number;
+  setStartCol: (col: number) => void;
+  currentCol: number;
+  setCurrentCol: React.Dispatch<React.SetStateAction<number>>;
+  cols: number;
+  rows: number;
+  noteStates: boolean[][];
+  setNoteStates: React.Dispatch<React.SetStateAction<boolean[][]>>;
+}) {
+  
+  useEffect(() => {
+    const ctx = getAudioContext();
+    ctx.resume(); // iOS/Chromeの制限回避（ユーザー操作後推奨）
 
-export default function GridContainer() {
-  const grid = Array.from({ length: rows * cols });
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, ctx.currentTime); // 無音
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.01); // 10msで終了
+  }, []);
+
+  useEffect(() => {
+  if (!isPlaying) return;
+
+  if (currentCol >= cols) {
+    setIsPlaying(false);
+    return;
+  }
+
+  // 音を鳴らす処理
+  const notesToPlay: string[] = [];
+  for (let row = 0; row < rows; row++) {
+    if (noteStates[row][currentCol]) {
+      const note = rowToNote[row + 1];
+      if (note) notesToPlay.push(note);
+    }
+  }
+  if (notesToPlay.length > 0) {
+    setTimeout(() => {
+      playNotes(notesToPlay, intervalMs / 1000);
+    }, intervalMs*1.2); // ← 100ms 遅らせる（任意の値）
+  }
+
+  const timer = setTimeout(() => {
+    setCurrentCol((prev) => prev + 1);
+  }, intervalMs);
+
+  return () => clearTimeout(timer);
+}, [isPlaying, currentCol, noteStates]);
+
+  
+
+  
+  const handleCellClick = (row: number, col: number) => {
+    setNoteStates((prev) => {
+      const newStates = prev.map((r, rowIndex) =>
+        rowIndex === row ? r.map((c, colIndex) => (colIndex === col ? !c : c)) : r
+      );
+      const noteIsActive = newStates[row][col];
+
+      if (noteIsActive) { // ノートがアクティブになった場合に音を鳴らす
+        const note = rowToNote[row + 1]; // 1始まりにする
+        if (note) playNote(note);
+      }
+      return newStates;
+    });
+  };
 
   return (
-    <div
-      className={`grid w-[890px] h-[600px]`}
+    <div className="relative w-[890px] h-[600px] grid" style={{
+      gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+      gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
+    }}>
+      {/* 再生バー */}
+      {isPlaying && <div
+        className="absolute top-0 bottom-0 w-1 h-full bg-gray-400 opacity-50 z-20 transition-transform pointer-events-none ease-linear"
         style={{
-          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
+          transform: `translateX(${(890 / cols) * currentCol}px)`,
+          transitionDuration: `${intervalMs}ms`,
+          
         }}
-    >
-      {grid.map((_, index) => {
-        const currentRow = Math.floor(index / cols) + 1;
-        const isBlack = blackRow.includes(currentRow);
+      />
+      }
 
-        const handleClick = () => {
-        const note = rowToNote[currentRow];
-        if (note) playNote(note);
-      };
+      {Array.from({ length: rows * cols }).map((_, index) => {
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+        const isActive = noteStates[row][col];
+        const isBlack = blackRow.includes(row + 1);
 
         return (
           <div
             key={index}
-            onDoubleClick={handleClick}
-            className="border-0 border-gray-200"
-          >
-          <DoubleClickArea isBlack={isBlack}/>
-        </div>
+            // onDoubleClick={() => handleCellClick(row, col)} // ダブルクリックでノートを置く場合
+            onClick={() => handleCellClick(row, col)} // シングルクリックでノートを置く
+            className={`
+              border border-gray-300 cursor-pointer z-10 transition-colors duration-100 ease-in-out
+              ${isActive 
+                ? 'bg-blue-400 hover:bg-blue-500' // アクティブなノートの色
+                : isBlack 
+                  ? 'bg-gray-200 hover:bg-gray-300' // 黒鍵の背景色
+                  : 'bg-white hover:bg-gray-100' // 白鍵の背景色
+              }`}
+           ></div>
         );
       })}
     </div>
