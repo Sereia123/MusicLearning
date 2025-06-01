@@ -1,7 +1,7 @@
 'use client';
 
 import { playNote, playNotes, getAudioContext } from './audioUtils'; // audioUtils からインポート
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const intervalMs = 500;
 
@@ -38,8 +38,6 @@ const rowToNote: Record<number, string> = {
 export default function GridContainer({ 
   isPlaying, 
   setIsPlaying, 
-  startCol, 
-  setStartCol, 
   currentCol, 
   setCurrentCol,
   cols, 
@@ -49,8 +47,6 @@ export default function GridContainer({
 }: { 
   isPlaying: boolean; 
   setIsPlaying: (isPlaying: boolean) => void; 
-  startCol: number;
-  setStartCol: (col: number) => void;
   currentCol: number;
   setCurrentCol: React.Dispatch<React.SetStateAction<number>>;
   cols: number;
@@ -61,14 +57,16 @@ export default function GridContainer({
   
   useEffect(() => {
     const ctx = getAudioContext();
-    ctx.resume(); // iOS/Chromeの制限回避（ユーザー操作後推奨）
+    if (!ctx) return;
 
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0, ctx.currentTime); // 無音
-    osc.connect(gain).connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.01); // 10msで終了
+    ctx.resume().then(() => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, ctx.currentTime); // 無音
+      osc.connect(gain).connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.01); // 10msで終了
+    });
   }, []);
 
   useEffect(() => {

@@ -30,11 +30,16 @@ export const noteFrequencies: Record<string, number> = {
 
 let audioCtx: AudioContext | null = null;
 
-export const getAudioContext = (): AudioContext => {
-  if (typeof window !== 'undefined' && !audioCtx) {
-    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+export const getAudioContext = (): AudioContext | null => {
+  if (typeof window !== 'undefined') {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    return audioCtx;
   }
-  return audioCtx as AudioContext; // null チェックは利用側で行うか、初期化を保証する
+
+  // サーバー環境では null を返す
+  return null;
 };
 
 export const playNoteWithContext = (audioContext: AudioContext, note: string, durationSeconds: number = 0.5) => {

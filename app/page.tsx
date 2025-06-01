@@ -87,7 +87,6 @@ export default function Home() {
           <div className="flex-1">
             <GridContainer 
               isPlaying={isPlaying} setIsPlaying={setIsPlaying} 
-              startCol={startCol} setStartCol={setStartCol} 
               currentCol={currentCol} setCurrentCol={setCurrentCol}
               noteStates={noteStates} setNoteStates={setNoteStates}
               cols={cols}
