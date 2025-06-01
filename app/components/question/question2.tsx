@@ -1,0 +1,1 @@
+export const correctPositions = [{ row: 2, col: 3 }, { row: 5, col: 1 }]; 

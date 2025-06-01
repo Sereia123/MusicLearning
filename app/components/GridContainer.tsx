@@ -44,6 +44,7 @@ export default function GridContainer({
   rows,
   noteStates,
   setNoteStates,
+  disabled,
 }: { 
   isPlaying: boolean; 
   setIsPlaying: (isPlaying: boolean) => void; 
@@ -53,6 +54,7 @@ export default function GridContainer({
   rows: number;
   noteStates: boolean[][];
   setNoteStates: React.Dispatch<React.SetStateAction<boolean[][]>>;
+  disabled: boolean;
 }) {
   
   useEffect(() => {
@@ -102,6 +104,8 @@ export default function GridContainer({
 
   
   const handleCellClick = (row: number, col: number) => {
+    if (disabled) return;
+
     setNoteStates((prev) => {
       const newStates = prev.map((r, rowIndex) =>
         rowIndex === row ? r.map((c, colIndex) => (colIndex === col ? !c : c)) : r
@@ -117,7 +121,12 @@ export default function GridContainer({
   };
 
   return (
-    <div className="relative w-[890px] h-[600px] grid" style={{
+    <div 
+      className={`
+        relative w-[890px] h-[600px] grid
+        ${disabled ? 'opacity-80 pointer-events-none' : ''}
+      `}
+      style={{
       gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
       gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
     }}>
