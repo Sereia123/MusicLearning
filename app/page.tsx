@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import GridContainer from './components/GridContainer';
 import PianoKeys from './components/PianoKeys';
+import {correctPositions} from './components/question/question1';
+
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false); // 再生状態
@@ -12,12 +14,19 @@ export default function Home() {
   const [noteStates, setNoteStates] = useState<boolean[][]>(
       () => Array.from({ length: rows }, () => Array(cols).fill(false))
     );
+  const [judgeResult, setJudgeResult] = useState<string | null>(null);
 
 
 
   const handleStart = () => {
     setCurrentCol(startCol);
     setIsPlaying(true);
+  };
+
+  const handleJudge = () => {
+    const isCorrect = correctPositions.every(({ row, col }) => noteStates[row][col]);
+
+    setJudgeResult(isCorrect ? '正解！' : '不正解');
   };
 
   return (
@@ -111,8 +120,19 @@ export default function Home() {
         >
           🔄 リセット
         </button>
+        <button
+          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+          onClick={() => handleJudge()}
+        >
+          判定
+        </button>
       </div>
       
+      {judgeResult && (
+        <div className="mt-2 text-center font-bold">
+          {judgeResult}
+        </div>
+      )}
     </>
   );
 }
