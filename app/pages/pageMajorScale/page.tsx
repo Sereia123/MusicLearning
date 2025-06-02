@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import GridContainer from '../../components/GridContainer';
 import PianoKeys from '../../components/PianoKeys';
-import { questions } from '../../components/question/questionScale';
+import { questions } from '../../components/question/questionMajorScale';
 import { whiteKeys, blackKeys, rowToNote, blackRow } from '../../components/noteConfig';
 
 

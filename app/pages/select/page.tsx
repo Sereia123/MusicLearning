@@ -14,10 +14,10 @@ export default function Select(){
   };
 
   return(
-    <div className="w-[800px] h-full flex items-center justify-center flex-col mt-10">
+    <div className="w-[800px] h-full mx-auto flex items-center justify-center flex-col mt-10">
       <div 
         onClick={handleClick}
-        className="flex w-[400px] p-3 rounded-lg bg-white"
+        className="flex w-[400px] p-3 rounded-lg bg-white mr-auto"
       >
         <button
           className="flex items-center text-blue-300 font-bold text-3xl mr-auto"
@@ -35,22 +35,44 @@ export default function Select(){
 
       <AnimatePresence>
         {isVisible && (
-          <motion.div
-            className="w-[300px] p-3 rounded-lg bg-white mt-10"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="flex flex-col">
-              <Link href="/pages/page1">
-                <button className="flex items-center text-blue-300 font-bold text-2xl mr-auto">
-                  ・メジャースケール
-                </button>
-              </Link>
-             
-            </div>
-          </motion.div>
+          <>
+            <motion.div
+              className="w-[300px] p-3 rounded-lg bg-white mt-10 mr-auto"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex flex-col">
+                <Link href="/pages/pageMajorScale">
+                  <button className="flex items-center text-blue-300 font-bold text-2xl mr-auto">
+                    ・メジャースケール
+                  </button>
+                </Link>
+              
+              </div>
+              
+            </motion.div>
+
+            <motion.div
+              className="w-[300px] p-3 rounded-lg bg-white mt-10 mr-auto"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+            >
+              <div className="flex flex-col">
+                <Link href="/pages/pageMinorScale">
+                  <button className="flex items-center text-blue-300 font-bold text-2xl mr-auto">
+                    ・マイナースケール
+                  </button>
+                </Link>
+              
+              </div>
+              
+            </motion.div>
+          </>
+          
         )}
       </AnimatePresence>
       
