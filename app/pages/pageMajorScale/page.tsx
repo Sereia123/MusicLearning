@@ -209,7 +209,7 @@ export default function Page1() {
 
           {judgeResult && (
             <div className='absolute flex flex-col ml-[110px] mt-[200px] gap-4'>
-              <div className="bg-white/60 p-4 rounded  text-center text-5xl font-bold w-[690px]">
+              <div className="bg-white p-4 rounded  text-center text-red-500 text-5xl font-bold w-[690px]">
                 {judgeResult}
               </div>
 
