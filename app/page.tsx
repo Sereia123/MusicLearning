@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <Link href="/pages/page1">
+    <Link href="/pages/select">
       <div className="flex items-center justify-center h-screen">
         <button
           className="

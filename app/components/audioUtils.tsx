@@ -2,9 +2,14 @@
 
 // 各キーに対応する周波数
 export const noteFrequencies: Record<string, number> = {
+  'C3': 130.813,
+  'C#3': 138.591,
+  'D3': 146.832,
+  'D#3': 155.563,
+  'E3': 164.814,
   'F3': 174.614,
   'F#3': 184.997,
-  'G3':	195.998,
+  'G3': 195.998,
   'G#3': 207.652,
   'A3': 220.000,
   'A#3': 233.082,
@@ -26,6 +31,13 @@ export const noteFrequencies: Record<string, number> = {
   'D5': 587.330,
   'D#5': 622.254,
   'E5': 659.255,
+  'F5': 698.456,
+  'F#5': 739.989,
+  'G5': 783.991,
+  'G#5': 830.609,
+  'A5': 880.000,
+  'A#5': 932.328,
+  'B5': 987.767,
 };
 
 let audioCtx: AudioContext | null = null;
@@ -38,7 +50,7 @@ export const getAudioContext = (): AudioContext | null => {
     return audioCtx;
   }
 
-  // サーバー環境では null を返す
+  // サーバー環境では null 
   return null;
 };
 
