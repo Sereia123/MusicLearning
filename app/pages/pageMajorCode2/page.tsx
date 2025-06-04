@@ -1,5 +1,5 @@
 import { questions } from '../../components/question/questionMajorCode2';
-import Origin from '../pageOrigin/page';
+import Origin from '../../components/Origin';
 
 export default function pageMajorScale() {
   const cols = 7;

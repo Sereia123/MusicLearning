@@ -1,5 +1,5 @@
 import { questions } from '../../components/question/questionMinorScale';
-import Origin from '../pageOrigin/page';
+import Origin from '../../components/Origin';
 
 export default function pageMajorScale() {
   const cols = 7;

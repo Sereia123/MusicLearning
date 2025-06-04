@@ -1,9 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import GridContainer from '../../components/GridContainer';
-import PianoKeys from '../../components/PianoKeys';
-import { whiteKeys, blackKeys, rowToNote, blackRow } from '../../components/noteConfig';
+import GridContainer from './GridContainer';
+import PianoKeys from './PianoKeys';
+import { whiteKeys, blackKeys, rowToNote, blackRow } from './noteConfig';
 
 export type Position = { row: number; col: number };
 
