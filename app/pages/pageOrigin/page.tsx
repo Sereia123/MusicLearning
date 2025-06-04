@@ -23,7 +23,7 @@ export default function Origin({
   timeSignature:number;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0); // 今の問題番号
-  const currentQuestion = questions[currentIndex];     // 今の問題データ
+  const currentQuestion = questions?.[currentIndex];     // 今の問題データ
   const [isPlaying, setIsPlaying] = useState(false); // 再生状態
   const [startCol, setStartCol] = useState(0);
   const [currentCol, setCurrentCol] = useState(0);
