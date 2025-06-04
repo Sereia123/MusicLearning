@@ -2,80 +2,95 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from "next/link";
+import Link from 'next/link';
 
-export default function Select(){
-  const [rotated, setRotated] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+const sections = [
+  {
+    label: 'スケール',
+    links: [
+      { name: '・メジャースケール', href: '/pages/pageMajorScale' },
+      { name: '・マイナースケール', href: '/pages/pageMinorScale' },
+    ],
+  },
+  {
+    label: 'コード',
+    links: [
+      { name: '・メジャーコード(2和音)', href: '/pages/pageMajorCode2' },
+      { name: '・マイナーコード(2和音)', href: '/pages/pageMinorCode2' },
+    ],
+  },
+];
 
-  const handleClick = () => {
-    setRotated(!rotated);
-    setIsVisible(!isVisible);
+export default function Select() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const toggleSection = (index: number) => {
+    setActiveIndex((prev) => (prev === index ? null : index));
   };
 
-  return(
-    <div className="w-[800px] h-full mx-auto flex items-center justify-center flex-col mt-10">
-      <div 
-        onClick={handleClick}
-        className="flex w-[400px] p-3 rounded-lg bg-white mr-auto"
-      >
-        <button
-          className="flex items-center text-blue-300 font-bold text-3xl mr-auto"
-        >
-          Section：スケール
-        </button>
-        <button
-          className={`flex items-center text-blue-300 font-bold text-5xl ml-auto transform transition-transform duration-300 ${
-            rotated ? '-rotate-45' : 'rotate-0'
-          }`}
-        >
-          +
-        </button>
-      </div>
+  return (
+    <motion.div
+      layout
+      className="w-[1000px] h-full mx-auto flex flex-col items-center justify-center mt-10 gap-5"
+    >
+      {sections.map((section, index) => {
+        const isAfterActive = activeIndex !== null && index > activeIndex;
+        const expandedLinksCount = activeIndex !== null ? sections[activeIndex].links.length : 0;
+        const extraSpacing = isAfterActive ? (expandedLinksCount * 64) : 0;
 
-      <AnimatePresence>
-        {isVisible && (
-          <>
-            <motion.div
-              className="w-[300px] p-3 rounded-lg bg-white mt-10 mr-auto"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+        return (
+          <motion.div
+            key={index}
+            layout
+            className="w-full relative"
+            style={{ marginTop: extraSpacing }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+          >
+            {/* セクション見出し */}
+            <div
+              onClick={() => toggleSection(index)}
+              className={`flex w-[400px] p-3 mb-2 rounded-lg bg-white cursor-pointer justify-between items-center ${index % 2 === 0 ? 'mr-auto' : 'ml-auto'}`}
             >
-              <div className="flex flex-col">
-                <Link href="/pages/pageMajorScale">
-                  <button className="flex items-center text-blue-300 font-bold text-2xl mr-auto">
-                    ・メジャースケール
-                  </button>
-                </Link>
-              
+              <div className="text-blue-300 font-bold text-3xl">
+                Section：{section.label}
               </div>
-              
-            </motion.div>
+              {/* 展開アイコン */}
+              <motion.div
+                className="text-blue-300 font-bold text-5xl"
+                animate={{ rotate: activeIndex === index ? -45 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                +
+              </motion.div>
+            </div>
 
-            <motion.div
-              className="w-[300px] p-3 rounded-lg bg-white mt-10 mr-auto"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-            >
-              <div className="flex flex-col">
-                <Link href="/pages/pageMinorScale">
-                  <button className="flex items-center text-blue-300 font-bold text-2xl mr-auto">
-                    ・マイナースケール
-                  </button>
-                </Link>
-              
-              </div>
-              
-            </motion.div>
-          </>
-          
-        )}
-      </AnimatePresence>
-      
-    </div>
-  )
+            {/* 展開部分 */}
+            <AnimatePresence>
+              {activeIndex === index && (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.3}}
+                  className={`absolute ${index % 2 === 0 ? 'left-0' : 'right-0'}`}
+                >
+                  <div className="flex flex-col gap-2">
+                    {section.links.map((link, j) => (
+                      <Link href={link.href} key={j}>
+                        <button className={`w-[300px] p-3 mt-3  text-blue-300 font-bold text-2xl text-left rounded-lg bg-white `}>
+                          {link.name}
+                        </button>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
+
+    </motion.div>
+  );
 }

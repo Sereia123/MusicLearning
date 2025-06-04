@@ -40,6 +40,8 @@ export const noteFrequencies: Record<string, number> = {
   'B5': 987.767,
 };
 
+const oscillatorType = ["sine",  "square", "triangle", "sawtooth"];
+
 let audioCtx: AudioContext | null = null;
 
 export const getAudioContext = (): AudioContext | null => {
