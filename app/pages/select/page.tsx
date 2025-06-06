@@ -17,6 +17,8 @@ const sections = [
     links: [
       { name: '・メジャーコード(2和音)', href: '/pages/pageMajorCode2' },
       { name: '・マイナーコード(2和音)', href: '/pages/pageMinorCode2' },
+      { name: '・メジャーコード(3和音)', href: '/pages/pageMajorCode3' },
+      { name: '・マイナーコード(3和音)', href: '/pages/pageMinorCode3' },
     ],
   },
 ];

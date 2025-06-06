@@ -1,4 +1,4 @@
-import { questions } from '../../components/question/questionMajorCode2';
+import { questions } from '../../components/questions/questionMajorCode2';
 import Origin from '../../components/Origin';
 
 export default function pageMajorScale() {
