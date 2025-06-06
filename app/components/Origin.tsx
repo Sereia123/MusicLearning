@@ -51,7 +51,7 @@ export default function Origin({
 
   useEffect(() => {
     if (isJudged) {
-      setJudgeResult(isCorrect ? 'せいか～い(･ω･ﾉﾉ' : 'やりなおし～ლ(◉◞౪◟◉ )ლ');
+      setJudgeResult(isCorrect ? 'せいか～い(･ω･ﾉﾉ' : 'やりなおし～( ´︵` )');
     }
   }, [isJudged, isCorrect]);
 
