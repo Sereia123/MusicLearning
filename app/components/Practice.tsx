@@ -32,7 +32,6 @@ export default function Practice({
   const [noteStates, setNoteStates] = useState<boolean[][]>(
       () => Array.from({ length: rows }, () => Array(cols).fill(false))
     );
-  const [isJudged, setIsJudged] = useState(false);
 
 
 
@@ -200,7 +199,7 @@ export default function Practice({
               noteStates={noteStates} setNoteStates={setNoteStates}
               cols={cols}
               rows={rows}
-              disabled={isJudged}
+              disabled={false}
               rowToNote={rowToNote}
               blackRow={blackRow}
               clickableRows={currentQuestion.clickableRows}
