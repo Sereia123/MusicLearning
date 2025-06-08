@@ -94,7 +94,16 @@ export default function MajorScaleLogic({
           if (!draggedItem) return;
 
           // item をすべてのエリアから削除
-          const newArea: Record<AreaId, Item[]> = {} as any;
+          const newArea: Record<AreaId, Item[]> = {
+            unplaced: [],
+            dropRed: [],
+            dropGreen: [],
+            dropYellow: [],
+            dropBlue: [],
+            dropOrange: [],
+            dropPurple: [],
+            dropPink: [],
+          };
           for (const key in areaItems) {
             newArea[key as AreaId] = areaItems[key as AreaId].filter((v) => v.id !== itemId);
           }
