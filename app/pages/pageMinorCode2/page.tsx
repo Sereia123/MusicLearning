@@ -10,6 +10,7 @@ export default function pageMajorScale() {
       cols={cols}
       questions={questions}
       timeSignature={timeSignature}
+      url={''}
     />
   )
 }
