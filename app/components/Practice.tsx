@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import GridContainer from './GridContainer';
 import PianoKeys from './PianoKeys';
 import { whiteKeys, blackKeys, rowToNote, blackRow } from './noteConfig';
@@ -9,21 +9,20 @@ export type Position = { row: number; col: number };
 
 export type QuestionData = {
   question: string;
-  correctPositions: Position[];
   clickableRows: number[];
+  select: string;
 };
 
-export default function Origin({
-  cols,
+export default function Practice({
+  realCols,
   questions,
-  timeSignature,
-  url
+  timeSignature
 }:{
-  cols:number; 
+  realCols:number; 
   questions:QuestionData[];
   timeSignature:number;
-  url:string;
 }) {
+  const [cols, setCols] = useState(realCols);
   const [currentIndex, setCurrentIndex] = useState(0); // 今の問題番号
   const currentQuestion = questions?.[currentIndex];     // 今の問題データ
   const [isPlaying, setIsPlaying] = useState(false); // 再生状態
@@ -40,22 +39,11 @@ export default function Origin({
 
 
 
+
   const handleStart = () => {
     setCurrentCol(startCol);
     setIsPlaying(true);
   };
-
-  const handleJudge = () => {
-    const result = currentQuestion.correctPositions.every(({ row, col }) => noteStates[row][col]);
-    setIsCorrect(result);
-    setIsJudged(true);
-  };
-
-  useEffect(() => {
-    if (isJudged) {
-      setJudgeResult(isCorrect ? 'せいか～い(･ω･ﾉﾉ' : 'やりなおし～( ´︵` )');
-    }
-  }, [isJudged, isCorrect]);
 
   //小節計算
   function generateBarBeatsByCols(cols: number, timeSignature: number): number[] {
@@ -69,15 +57,6 @@ export default function Origin({
   }
 
   const beats:number[] = generateBarBeatsByCols(cols, timeSignature);
-
-
-
-
-  const handleReturn = () => {
-    setJudgeResult(null);
-    setIsJudged(false);
-
-  }
 
   const handleNext = () => {
     setCurrentIndex(currentIndex + 1);
@@ -99,7 +78,6 @@ export default function Origin({
         <button
           className={`
             w-[150px]  bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 font-bold text-xl
-            ${isJudged ? 'opacity-50 pointer-events-none' : ''}
           `}
           onClick={() => handleStart()}
         >
@@ -108,7 +86,6 @@ export default function Origin({
         <button
           className={`
             w-[150px] bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 font-bold text-xl
-            ${isJudged ? 'opacity-50 pointer-events-none' : ''}
           `}
           onClick={() => setIsPlaying(false)}
         >
@@ -120,29 +97,55 @@ export default function Origin({
           }}
           className={`
             w-[150px] bg-yellow-400 text-white px-4 py-1 rounded hover:bg-yellow-500 font-bold text-xl
-            ${isJudged ? 'opacity-50 pointer-events-none' : ''}
           `}
         >
           🔄 リセット
         </button>
-        <button
-          className={`
-            w-[150px] bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 font-bold text-xl
-            ${isJudged ? 'opacity-50 pointer-events-none' : ''}
-          `}
-          onClick={() => handleJudge()}
-        >
-          判定
-        </button>
-        <button
-          className={`
-            w-[150px] bg-purple-500 text-white px-4 py-1 rounded hover:bg-purple-600 font-bold text-xl
-            ${!isJudged ? 'opacity-50 pointer-events-none' : ''}
-          `}
-          onClick={() => handleReturn()}
-        >
-          もう一度
-        </button>
+        <Link href='/pages/select'>
+            <button
+              onClick={() => {
+                setNoteStates(Array.from({ length: rows }, () => Array(cols).fill(false)));
+              }}
+              className={`
+                w-[150px] bg-blue-400 text-white px-4 py-1 rounded hover:bg-blue-500 font-bold text-xl
+              `}
+            >
+              ホームへ
+            </button>
+        </Link>
+        <div className="flex flex-col gap-2 text-white">
+          <label htmlFor="cols-input" className="font-bold">小節の列数を指定：</label>
+          <input
+            id="cols-input"
+            type="number"
+            min={1}
+            max={128}
+            value={cols}
+            onChange={(e) => setCols(Number(e.target.value))}
+            className="w-[120px] px-2 py-1 rounded text-black"
+          />
+        </div>
+        <div className="flex flex-col gap-2 text-white">
+          <label htmlFor="question-select" className="font-bold">スケール選択：</label>
+          <select
+            id="question-select"
+            value={currentIndex}
+            onChange={(e) => {
+              const index = Number(e.target.value);
+              setCurrentIndex(index);
+              setNoteStates(Array.from({ length: rows }, () => Array(cols).fill(false))); 
+            }}
+            className="w-[150px] px-2 py-1 rounded text-black"
+          >
+            {questions.map((_, index) => (
+              <option key={index} value={index}>
+                {questions[index].select}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        
       </div> 
 
       <div className='relative w-[816px] right-0'>
@@ -218,38 +221,6 @@ export default function Origin({
               clickableRows={currentQuestion.clickableRows}
             />
           </div>
-
-          {judgeResult && (
-            <div className='absolute flex flex-col ml-[110px] mt-[200px] gap-4'>
-              <div className="bg-white p-4 rounded  text-center text-red-500 text-5xl font-bold w-[690px]">
-                {judgeResult}
-              </div>
-
-              {isCorrect && !isFinished && (
-                <button
-                  className="
-                    bg-orange-500/80 text-white text-3xl px-4 py-5 rounded hover:bg-orange-500 w-[300px] ml-[200px]
-                  "
-                  onClick={handleNext}
-                >
-                  次の問題へ {`>>`}
-                </button>
-              )}
-
-              {isFinished && (
-                <Link href={url}>
-                  <button
-                    className="
-                      bg-orange-500/80 text-white text-3xl px-4 py-5 rounded hover:bg-orange-500 w-[300px] ml-[200px]
-                    "
-                  >
-                    練習しよう！ {`>>`}
-                  </button>
-                </Link>
-              )}
-            </div>
-            
-          )}
         </div>
       </div>      
       

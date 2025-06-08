@@ -1,4 +1,4 @@
-import { questions } from '../../components/questions/practiceMajorScale';
+import { questions } from '../../components/questions/practiceMinorScale';
 import Practice from '../../components/Practice';
 
 export default function pageMajorScale() {
