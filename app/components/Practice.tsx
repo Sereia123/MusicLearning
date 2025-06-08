@@ -32,10 +32,7 @@ export default function Practice({
   const [noteStates, setNoteStates] = useState<boolean[][]>(
       () => Array.from({ length: rows }, () => Array(cols).fill(false))
     );
-  const [judgeResult, setJudgeResult] = useState<string | null>(null);
   const [isJudged, setIsJudged] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
 
 
 
@@ -57,18 +54,6 @@ export default function Practice({
   }
 
   const beats:number[] = generateBarBeatsByCols(cols, timeSignature);
-
-  const handleNext = () => {
-    setCurrentIndex(currentIndex + 1);
-    setNoteStates(Array.from({ length: rows }, () => Array(cols).fill(false)));
-    setIsJudged(false);
-    setJudgeResult(null);
-    setIsCorrect(false);
-
-    if (currentIndex + 3 > questions.length) {
-      setIsFinished(true); 
-    }
-  };
 
   return (
     <div className='w-[1000px] h-[600px] mx-auto my-auto mt-3 flex gap-8'>     
