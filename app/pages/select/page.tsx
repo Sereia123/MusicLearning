@@ -8,8 +8,8 @@ const sections = [
   {
     label: 'スケール',
     links: [
-      { name: '・メジャースケール', href: '/pages/pageMajorScale' },
-      { name: '・マイナースケール', href: '/pages/pageMinorScale' },
+      { name: '・メジャースケール', href: '/pages/pageMajorScaleLogic' },
+      { name: '・マイナースケール', href: '/pages/pageMinorScaleLogic' },
     ],
   },
   {
