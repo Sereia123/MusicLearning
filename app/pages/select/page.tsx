@@ -25,7 +25,7 @@ const sections = [
     label: '相対音感',
     links: [
       { name: '・Level1', href: '/pages/pageRelativePitch1' },
-      { name: '・Level2', href: '/pages/pageMinorScaleLogic' },
+      { name: '・Level2', href: '/pages/pageRelativePitch2' },
     ],
   },
 ];

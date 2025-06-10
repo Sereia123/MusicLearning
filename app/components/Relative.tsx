@@ -74,9 +74,13 @@ export default function Origin({
 
       const { row, col } = recorded[i];
       const note = rowToNote[row + 1];
-      if (note) playNotes([note], intervalMs / 1000);
+      setPlaybackCol(col); 
 
-      setPlaybackCol(col);
+      if (note) {
+        setTimeout(() => {
+          playNotes([note], intervalMs / 1000); // 音は少し遅らせて再生
+        }, intervalMs / 2); // ← ここを調整：0.5倍の遅延（例：500ms間隔なら250ms遅らせる）
+      }
 
       i++;
       setTimeout(playNext, intervalMs);
@@ -287,7 +291,7 @@ export default function Origin({
                 </button>
               )}
 
-              {isFinished && (
+              {isCorrect && isFinished && (
                 <Link href={url}>
                   <button
                     className="

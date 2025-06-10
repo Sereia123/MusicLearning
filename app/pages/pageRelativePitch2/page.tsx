@@ -1,9 +1,9 @@
-import { questions } from '../../components/questions/questionRelativePitch1';
+import { questions } from '../../components/questions/questionRelativePitch2';
 import Relative from '../../components/Relative';
 
-export default function pageRelativePitch1() {
+export default function pageRelativePitch2() {
   const timeSignature = 4;
-  const cols = 3;
+  const cols = 4;
 
  return(
      <Relative
