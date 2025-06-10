@@ -2,7 +2,7 @@ export const whiteKeys = ['B5', 'A5', 'G5', 'F5', 'E5', 'D5', 'C5', 'B4', 'A4', 
 
 export const blackKeys = ['A#5', 'G#5', 'F#5', '', 'D#5', 'C#5', '', 'A#4', 'G#4', 'F#4', '', 'D#4', 'C#4', '', 'A#3', 'G#3', 'F#3', '', 'D#3', 'C#3'];
 
-export const rowToNote = {
+export const rowToNote: Record<number, string> = {
   1: 'B5',
   2: 'A#5',
   3: 'A5',

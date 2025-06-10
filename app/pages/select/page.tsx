@@ -21,6 +21,13 @@ const sections = [
       { name: '・マイナーコード(3和音)', href: '/pages/pageMinorCode3' },
     ],
   },
+  {
+    label: '相対音感',
+    links: [
+      { name: '・Level1', href: '/pages/pageRelativePitch1' },
+      { name: '・Level2', href: '/pages/pageMinorScaleLogic' },
+    ],
+  },
 ];
 
 export default function Select() {
