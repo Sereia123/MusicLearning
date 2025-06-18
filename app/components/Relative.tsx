@@ -79,7 +79,7 @@ export default function Origin({
       if (note) {
         setTimeout(() => {
           playNotes([note], intervalMs / 1000); // 音は少し遅らせて再生
-        }, intervalMs / 2); // ← ここを調整：0.5倍の遅延（例：500ms間隔なら250ms遅らせる）
+        }, intervalMs / 2); 
       }
 
       i++;
@@ -200,7 +200,7 @@ export default function Origin({
 
           <div className="flex w-[689px] bg-gray-300" >
             {beats.map((beatCount, index) => {
-              const width = (689 / cols) * beatCount; // px 単位の幅
+              const width = (689 / cols) * beatCount; 
 
               return (
                 <div
@@ -240,7 +240,7 @@ export default function Origin({
         
         {/* ピアノとノーツグリッド */}
 
-        <div className="absolute right-[-16px] top-0 h-full w-[16px] rounded" /> {/*バーを外に出す*/}
+        <div className="absolute right-[-16px] top-0 h-full w-[16px] rounded" /> 
           
         <div className="flex mx-auto mt-0 h-[500px] overflow-y-auto overflow-x-hidden">
           <div className="">

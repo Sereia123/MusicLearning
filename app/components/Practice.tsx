@@ -143,7 +143,7 @@ export default function Practice({
 
           <div className="flex w-[689px] bg-gray-300" >
             {beats.map((beatCount, index) => {
-              const width = (689 / cols) * beatCount; // px 単位の幅
+              const width = (689 / cols) * beatCount; 
 
               return (
                 <div
@@ -183,7 +183,7 @@ export default function Practice({
         
         {/* ピアノとノーツグリッド */}
 
-        <div className="absolute right-[-16px] top-0 h-full w-[16px] rounded" /> {/*バーを外に出す*/}
+        <div className="absolute right-[-16px] top-0 h-full w-[16px] rounded" /> 
           
         <div className="flex mx-auto mt-0 h-[500px] overflow-y-auto overflow-x-hidden">
           <div className="">

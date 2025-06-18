@@ -24,9 +24,9 @@ export default function Origin({
   timeSignature:number;
   url:string;
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0); // 今の問題番号
-  const currentQuestion = questions?.[currentIndex];     // 今の問題データ
-  const [isPlaying, setIsPlaying] = useState(false); // 再生状態
+  const [currentIndex, setCurrentIndex] = useState(0); 
+  const currentQuestion = questions?.[currentIndex]; 
+  const [isPlaying, setIsPlaying] = useState(false); 
   const [startCol, setStartCol] = useState(0);
   const [currentCol, setCurrentCol] = useState(0);
   const rows = 36;
@@ -94,7 +94,7 @@ export default function Origin({
   return (
     <div className='w-[1000px] h-[600px] mx-auto my-auto mt-3 flex gap-8'>     
 
-      {/* 再生・停止ボタン */}
+      {/* 再生・停止ボタンとか */}
       <div className="flex flex-col gap-10 mt-[100px] h-10 ml-auto">
         <button
           className={`
@@ -156,7 +156,7 @@ export default function Origin({
 
           <div className="flex w-[689px] bg-gray-300" >
             {beats.map((beatCount, index) => {
-              const width = (689 / cols) * beatCount; // px 単位の幅
+              const width = (689 / cols) * beatCount; 
 
               return (
                 <div
@@ -196,7 +196,7 @@ export default function Origin({
         
         {/* ピアノとノーツグリッド */}
 
-        <div className="absolute right-[-16px] top-0 h-full w-[16px] rounded" /> {/*バーを外に出す*/}
+        <div className="absolute right-[-16px] top-0 h-full w-[16px] rounded" /> 
           
         <div className="flex mx-auto mt-0 h-[500px] overflow-y-auto overflow-x-hidden">
           <div className="">

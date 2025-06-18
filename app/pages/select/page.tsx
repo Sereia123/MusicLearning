@@ -6,10 +6,10 @@ import Link from 'next/link';
 
 const sections = [
   {
-    label: 'スケール',
+    label: '相対音感',
     links: [
-      { name: '・メジャースケール', href: '/pages/pageMajorScaleLogic' },
-      { name: '・マイナースケール', href: '/pages/pageMinorScaleLogic' },
+      { name: '・Level1', href: '/pages/pageRelativePitch1' },
+      { name: '・Level2', href: '/pages/pageRelativePitch2' },
     ],
   },
   {
@@ -22,10 +22,10 @@ const sections = [
     ],
   },
   {
-    label: '相対音感',
+    label: 'スケール',
     links: [
-      { name: '・Level1', href: '/pages/pageRelativePitch1' },
-      { name: '・Level2', href: '/pages/pageRelativePitch2' },
+      { name: '・メジャースケール', href: '/pages/pageMajorScaleLogic' },
+      { name: '・マイナースケール', href: '/pages/pageMinorScaleLogic' },
     ],
   },
 ];

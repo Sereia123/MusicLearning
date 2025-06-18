@@ -43,7 +43,7 @@ export default function GridContainer({
       gain.gain.setValueAtTime(0, ctx.currentTime); // 無音
       osc.connect(gain).connect(ctx.destination);
       osc.start();
-      osc.stop(ctx.currentTime + 0.01); // 10msで終了
+      osc.stop(ctx.currentTime + 0.01); 
     });
   }, []);
 
@@ -66,7 +66,7 @@ export default function GridContainer({
     if (notesToPlay.length > 0) {
       setTimeout(() => {
         playNotes(notesToPlay, intervalMs / 1000);
-      }, intervalMs/2); // ← 100ms 遅らせる（任意の値）
+      }, intervalMs/2); 
     }
 
     const timer = setTimeout(() => {
@@ -90,7 +90,7 @@ export default function GridContainer({
       const noteIsActive = newStates[row][col];
 
       if (noteIsActive) { // ノートがアクティブになった場合に音を鳴らす
-        const note = rowToNote[row + 1]; // 1始まりにする
+        const note = rowToNote[row + 1]; // 1始まり
         if (note) playNote(note);
       }
       return newStates;
@@ -134,10 +134,10 @@ export default function GridContainer({
               border border-gray-300 cursor-pointer z-10 transition-colors duration-100 ease-in-out
               ${!isRowClickable(row) ? 'pointer-events-none opacity-60' : 'cursor-pointer'}
               ${isActive 
-                ? 'bg-blue-400 hover:bg-blue-500' // アクティブなノートの色
+                ? 'bg-blue-400 hover:bg-blue-500' 
                 : isBlack 
-                  ? 'bg-gray-200 hover:bg-gray-300' // 黒鍵の背景色
-                  : 'bg-white hover:bg-gray-200' // 白鍵の背景色
+                  ? 'bg-gray-200 hover:bg-gray-300' 
+                  : 'bg-white hover:bg-gray-200' 
               }`}
            ></div>
         );
